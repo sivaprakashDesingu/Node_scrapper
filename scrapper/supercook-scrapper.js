@@ -30,7 +30,7 @@ var ingredientitem = mongoose.model("ingredientitem", ingredientitem);
 
 // })
 // Set up mongoose connection
-// mongoose.connect(`mongodb+srv://admin:Admin123@cluster0-mvq6r.mongodb.net/cookingrecipe?retryWrites=true&w=majority`, {
+// mongoose.connect(`url`, {
 //   useNewUrlParser: true
 // }).then((data) => {
 //   console.log("Successfully connected to the database:");
