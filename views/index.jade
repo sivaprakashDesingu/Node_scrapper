@@ -1,0 +1,20 @@
+extends layout
+
+block content
+
+  h1 #{siteName}!
+  
+  h3 Categories
+  ul
+    each val in categories
+      li= val
+  h3 Positions
+  ul
+    each val in positions
+      li= val
+  h3 Locations
+  
+  h3 RecipeName
+  ul
+    each val in RecipeName
+      li= val
