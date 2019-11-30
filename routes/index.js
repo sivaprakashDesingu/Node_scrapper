@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const getResults = require("../scrapper/scrap-indianhealthyrecipes");
+//const getResults = require("../scrapper/scrap-indianhealthyrecipes");
+const getResults = require("../scrapper/helper");
 var Schema = mongoose.Schema;
 
 // Set up mongoose connection
@@ -17,17 +18,18 @@ mongoose.connect(`mongodb+srv://admin:Admin123@cluster0-mvq6r.mongodb.net/cookin
 /* GET home page. */
 router.get("/", async function (req, res, next) {
   const result = await getResults();
-  //console.log(result.RecipePage)
-  result.RecipePage.Recipetags = ["Indian", "Veg","Lunch"]
-  result.RecipePage.recipeCuisienId = "Indian"
-  result.RecipePage.recepeType = true
-  result.RecipePage.availaleStreaming = "TEXTIMAGE"
-  result.RecipePage.postedOn = new Date()
-  result.RecipePage.postedBy = 'SWASTHI'
-  result.RecipePage._id = mongoose.Types.ObjectId()
-  result.RecipePage.recipeCategoryId = [
-    mongoose.Types.ObjectId('5dd7d6ef50a5553ed17c3b78'),
-  ]
+  result.TotalResult.forEach((element, i) => {
+    element.Recipetags = ["Indian", "Non Veg", "Lunch"]
+    element.recipeCuisienId = "Indian"
+    element.recepeType = false
+    element.availaleStreaming = element.video !== undefined ? "TEXTVIDEO" : "TEXTIMAGE"
+    element.postedOn = new Date()
+    element.postedBy = 'SWASTHI'
+    element._id = mongoose.Types.ObjectId()
+    element.recipeCategoryId = [
+      mongoose.Types.ObjectId('5de244001c9d44000082858a'),
+    ]
+  });
 
   var RecipeSchema = new Schema({
     id: {
@@ -79,7 +81,7 @@ router.get("/", async function (req, res, next) {
     },
     images: {
       type: Object,
-      required: true
+      required: false
     },
     video: {
       type: String,
@@ -127,53 +129,56 @@ router.get("/", async function (req, res, next) {
   var Recipe = mongoose.model("Recipe", RecipeSchema);
   var recipeprocessstep = mongoose.model('recipeprocessstep', recipeprocessstepSchema);
   var Ingredient = mongoose.model('Ingredient', IngredientSchema);
-  //console.log(result.RecipePage)
-  const recipeInserData = new Recipe({
-    _id: result.RecipePage._id,
-    recipeTitle: result.RecipePage.recipeTitle,
-    Recipetags: result.RecipePage.Recipetags,
-    cookTime: result.RecipePage.cookTime,
-    serve: result.RecipePage.server,
-    recipeCategoryId: result.RecipePage.recipeCategoryId,
-    recipeCuisienId: result.RecipePage.recipeCuisienId,
-    recepeType: result.RecipePage.recepeType,
-    availaleStreaming: result.RecipePage.availaleStreaming,
-    postedOn: result.RecipePage.postedOn,
-    postedBy: result.RecipePage.postedBy,
-    images: result.RecipePage.images,
-    video: result.RecipePage.video
-  })
 
-  const StepsinsertData = new recipeprocessstep({
-    steps: result.RecipePage.instuction,
-    recipeId: result.RecipePage._id
-  })
-
-  const IngreinserData = new Ingredient({
-    Items: result.RecipePage.ingredients,
-    recipeId: result.RecipePage._id
-  })
-
-
-  recipeInserData.save(function (err, result) {
-    console.log("recipeInserData => Your bee has been saved!");
-    StepsinsertData.save(function (err, result) {
-      console.log("StepsinsertData => Your bee has been saved!");
-      IngreinserData.save(function (err, res) {
-        console.log("IngreinserData => Your bee has been saved!");
-        if (err) {
-          console.error(err);
-        }
-      })
-      if (err) {
-        console.error(err);
-      }
-    })
-    if (err) {
-      console.error(err);
+  const recipeInserData = result.TotalResult.map(function (data) {
+    let recipe = {
+      _id: data._id,
+      recipeTitle: data.recipeTitle,
+      Recipetags: data.Recipetags,
+      cookTime: data.cookTime,
+      serve: data.server,
+      recipeCategoryId: data.recipeCategoryId,
+      recipeCuisienId: data.recipeCuisienId,
+      recepeType: data.recepeType,
+      availaleStreaming: data.availaleStreaming,
+      postedOn: data.postedOn,
+      postedBy: data.postedBy,
+      images: data.images,
+      video: data.video
     }
+
+    return recipe
+  })
+  const StepsinsertData = result.TotalResult.map(function (data) {
+    let setpsColection = {
+      steps: data.instuction,
+      recipeId: data._id
+    }
+    return setpsColection
   })
 
+  const IngreinserData = result.TotalResult.map(function (data) {
+
+    let ingCollection = {
+      Items: data.ingredients,
+      recipeId: data._id
+    }
+    return ingCollection
+  })
+
+
+  // Recipe.insertMany(recipeInserData, function (error, docs) {
+  //   console.log(error)
+  //   console.log("Recipe Data inserted")
+  //   recipeprocessstep.insertMany(StepsinsertData, function (error, docs) {
+  //     console.log(error)
+  //     console.log("recipeprocessstep Data inserted")
+  //     Ingredient.insertMany(IngreinserData, function (error, docs) {
+  //       console.log(error)
+  //       console.log("Ingredient Data inserted")
+  //     });
+  //   });
+  // });
 
 
   res.send({ recipeInserData, StepsinsertData, IngreinserData })
