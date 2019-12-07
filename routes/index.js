@@ -124,11 +124,33 @@ router.get("/", async function (req, res, next) {
     }
   });
 
+  var ingredientitem = new Schema({
+    id: {
+      type: Number,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: String,
+      required: false
+    },
+    tag: {
+      type: String,
+      required: false
+    },
+    images: {
+      type: String,
+      required: false
+    }
+  })
 
 
   var Recipe = mongoose.model("Recipe", RecipeSchema);
   var recipeprocessstep = mongoose.model('recipeprocessstep', recipeprocessstepSchema);
   var Ingredient = mongoose.model('Ingredient', IngredientSchema);
+  var ingredientitem = mongoose.model('ingredientitem', ingredientitem);
+
 
   const recipeInserData = result.TotalResult.map(function (data) {
     let recipe = {
@@ -155,6 +177,22 @@ router.get("/", async function (req, res, next) {
       recipeId: data._id
     }
     return setpsColection
+  })
+
+  const allID = result.TotalResult.map(function (data) {
+    return data.ingredients.map(function (data2) {
+      return data2.Name
+    })
+  })
+
+
+  // console.log(allID.length)
+  // console.log(allID[1])
+  allID.map(function (data) {
+    ingredientitem.findOrCreate(
+      { name: { $in: data } }, function (err, doc) {
+        console.log(doc)
+      })
   })
 
   const IngreinserData = result.TotalResult.map(function (data) {
