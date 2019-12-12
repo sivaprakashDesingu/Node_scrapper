@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const async = require('async')
 const router = express.Router();
 //const getResults = require("../scrapper/scrap-indianhealthyrecipes");
 const getResults = require("../scrapper/helper");
@@ -188,12 +189,32 @@ router.get("/", async function (req, res, next) {
 
   // console.log(allID.length)
   // console.log(allID[1])
-  allID.map(function (data) {
-    ingredientitem.findOrCreate(
-      { name: { $in: data } }, function (err, doc) {
-        console.log(doc)
-      })
-  })
+  // allID.map(function (data) {
+  //   ingredientitem.findOrCreate(
+  //     { name: { $in: data } }, function (err, doc) {
+  //       console.log(doc)
+  //     })
+  // })
+
+
+  async.waterfall([
+    myFirstFunction,
+    mySecondFunction,
+    myLastFunction,
+], function (err, result) {
+    res.send(result)
+});
+function myFirstFunction(callback) {
+    callback(null, 'one', 'two');
+}
+function mySecondFunction(arg1, arg2, callback) {
+    // arg1 now equals 'one' and arg2 now equals 'two'
+    callback(null, 'three');
+}
+function myLastFunction(arg1, callback) {
+    // arg1 now equals 'three'
+    callback(null, 'done');
+}
 
   const IngreinserData = result.TotalResult.map(function (data) {
 
@@ -219,7 +240,7 @@ router.get("/", async function (req, res, next) {
   // });
 
 
-  res.send({ recipeInserData, StepsinsertData, IngreinserData })
+  //res.send({ recipeInserData, StepsinsertData, IngreinserData })
 
 
 });
