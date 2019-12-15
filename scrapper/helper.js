@@ -5,7 +5,7 @@ require('console.table')
 const siteUrl = [
     `https://www.indianhealthyrecipes.com/chicken-pakora/`,
     `https://www.indianhealthyrecipes.com/chilli-chicken-dry-recipe-indo-chinese-style/`,
-    `https://www.indianhealthyrecipes.com/murgh-makhani-recipe-butter-chicken/`,
+    /*`https://www.indianhealthyrecipes.com/murgh-makhani-recipe-butter-chicken/`,
     `https://www.indianhealthyrecipes.com/kolhapuri-chicken-recipe/`,
     `https://www.indianhealthyrecipes.com/chicken-korma-recipe/`,
     `https://www.indianhealthyrecipes.com/simple-chicken-curry-without-coconut/`,
@@ -56,7 +56,7 @@ const siteUrl = [
     `https://www.indianhealthyrecipes.com/chicken-tikka-in-oven/`,
     `https://www.indianhealthyrecipes.com/chettinad-chicken-dry-chicken-fry-recipe-step-by-step-pics/`,
     `https://www.indianhealthyrecipes.com/gongura-chicken-fry-roasted-chicken-with-gongura/`,
-    `https://www.indianhealthyrecipes.com/gongura-chicken-curry-chicken-with-red-sorrel-leaves/`,    
+    `https://www.indianhealthyrecipes.com/gongura-chicken-curry-chicken-with-red-sorrel-leaves/`,*/    
 ]
 
 
