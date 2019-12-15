@@ -186,35 +186,51 @@ router.get("/", async function (req, res, next) {
     })
   })
 
-
-  // console.log(allID.length)
-  // console.log(allID[1])
-  // allID.map(function (data) {
-  //   ingredientitem.findOrCreate(
-  //     { name: { $in: data } }, function (err, doc) {
-  //       console.log(doc)
-  //     })
-  // })
-
-
   async.waterfall([
-    myFirstFunction,
-    mySecondFunction,
-    myLastFunction,
-], function (err, result) {
+    ingredienceFindOrCreate,
+    pushRecipesIntoDB,
+  ], function (err, result) {
     res.send(result)
-});
-function myFirstFunction(callback) {
-    callback(null, 'one', 'two');
-}
-function mySecondFunction(arg1, arg2, callback) {
+  });
+  function ingredienceFindOrCreate(callback) {
+
+    async.map(allID, function (data, cb) {
+      return async.map(data, function (item, cbc) {
+
+        ingredientitem.find(
+          { name: item }, function (err, doc) {
+            if (doc.length == 0) {
+              ingredientitem.create({
+                "name": item,
+                "tag": '',
+                "image": ''
+              }, function (err, idoc) {
+                //console.log(idoc._id)
+                cbc(null, idoc._id)
+              })
+            } else {
+              //console.log(doc)
+              cbc(null, doc[0]._id)
+            }
+          })
+      }, cb)
+    }, callback)
+
+  }
+  function pushRecipesIntoDB(PrevResult, callback) {
     // arg1 now equals 'one' and arg2 now equals 'two'
-    callback(null, 'three');
-}
-function myLastFunction(arg1, callback) {
-    // arg1 now equals 'three'
-    callback(null, 'done');
-}
+    // async.map(PrevResult, function (data, cb) {
+    //   async.map(data, function (item, cb) {
+    //     async.map(item, function (item2, cb) {
+    //       cb(null, item2._id)
+    //     }, cb)
+    //   }, cb)
+    // }, callback)
+
+    callback(null,{PrevResult,recipeInserData,StepsinsertData})
+
+  }
+
 
   const IngreinserData = result.TotalResult.map(function (data) {
 
