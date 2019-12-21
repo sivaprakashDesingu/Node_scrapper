@@ -20,16 +20,15 @@ mongoose.connect(`mongodb+srv://admin:Admin123@cluster0-mvq6r.mongodb.net/cookin
 router.get("/", async function (req, res, next) {
   const result = await getResults();
   result.TotalResult.forEach((element, i) => {
-    element.Recipetags = ["Indian", "Non Veg", "Lunch"]
+    element.Recipetags = ["Lunch", "Dinner","Non Veg"]
     element.recipeCuisienId = "Indian"
     element.recepeType = false
     element.availaleStreaming = element.video !== undefined ? "TEXTVIDEO" : "TEXTIMAGE"
     element.postedOn = new Date()
     element.postedBy = 'SWASTHI'
     element._id = mongoose.Types.ObjectId()
-    element.recipeCategoryId = [
-      mongoose.Types.ObjectId('5de244001c9d44000082858a'),
-    ]
+    element.recipeCategoryId = []
+    
   });
 
   var RecipeSchema = new Schema({
@@ -132,7 +131,7 @@ router.get("/", async function (req, res, next) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
+    ingredient_id: {
       type: String,
       required: false
     },
@@ -180,9 +179,12 @@ router.get("/", async function (req, res, next) {
     return setpsColection
   })
 
+
+
+
   const allID = result.TotalResult.map(function (data) {
     return data.ingredients.map(function (data2) {
-      return data2.Name
+      return data2.ingredient_id
     })
   })
 
@@ -218,28 +220,52 @@ router.get("/", async function (req, res, next) {
 
   }
   function pushRecipesIntoDB(PrevResult, callback) {
-    // arg1 now equals 'one' and arg2 now equals 'two'
-    // async.map(PrevResult, function (data, cb) {
-    //   async.map(data, function (item, cb) {
-    //     async.map(item, function (item2, cb) {
-    //       cb(null, item2._id)
-    //     }, cb)
-    //   }, cb)
-    // }, callback)
 
-    callback(null,{PrevResult,recipeInserData,StepsinsertData})
+    const IngreinserData = result.TotalResult.map(function (data, j) {
+
+      data.ingredients.map((it, id) => {
+        data.ingredients[id].ingredient_id = PrevResult[j][id]
+      })
+
+      let ingCollection = {
+        Items: data.ingredients,
+        recipeId: data._id
+      }
+      return ingCollection
+    })
+
+
+     Recipe.insertMany(recipeInserData, function (error, docs) {
+      console.log(error)
+      console.log("Recipe Data inserted")
+      recipeprocessstep.insertMany(StepsinsertData, function (error, docs) {
+        console.log(error)
+        console.log("recipeprocessstep Data inserted")
+        Ingredient.insertMany(IngreinserData, function (error, docs) {
+          console.log(error)
+          console.log("Ingredient Data inserted")
+          callback(null, {
+            recipeInserData: {
+              data: recipeInserData, len: recipeInserData.length
+            }, StepsinsertData: {
+              data: StepsinsertData,
+              len: StepsinsertData.length
+            }, IngreinserData: {
+              data: IngreinserData,
+              len: IngreinserData.length
+            }
+          })
+        });
+      });
+    }); 
+
+
+    //callback(null, { recipeInserData, StepsinsertData, IngreinserData })
 
   }
 
 
-  const IngreinserData = result.TotalResult.map(function (data) {
 
-    let ingCollection = {
-      Items: data.ingredients,
-      recipeId: data._id
-    }
-    return ingCollection
-  })
 
 
   // Recipe.insertMany(recipeInserData, function (error, docs) {

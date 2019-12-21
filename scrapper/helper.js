@@ -3,60 +3,55 @@ const axios = require("axios");
 require('console.table')
 
 const siteUrl = [
-    `https://www.indianhealthyrecipes.com/chicken-pakora/`,
-    `https://www.indianhealthyrecipes.com/chilli-chicken-dry-recipe-indo-chinese-style/`,
-    /*`https://www.indianhealthyrecipes.com/murgh-makhani-recipe-butter-chicken/`,
-    `https://www.indianhealthyrecipes.com/kolhapuri-chicken-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-korma-recipe/`,
-    `https://www.indianhealthyrecipes.com/simple-chicken-curry-without-coconut/`,
-    `https://www.indianhealthyrecipes.com/chicken-65-recipe-no-egg-restaurant-style-chicken-recipes/`,
-    `https://www.indianhealthyrecipes.com/chettinad-chicken-curry/`,
-    `https://www.indianhealthyrecipes.com/chicken-biryani-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-kebab-recipe-chicken-kabab/`,
-    `https://www.indianhealthyrecipes.com/chicken-masala-recipe/`,
-    `https://www.indianhealthyrecipes.com/tandoori-chicken-recipe/`,
-    `https://www.indianhealthyrecipes.com/methi-chicken/`,
-    `https://www.indianhealthyrecipes.com/hyderabadi-biryani-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-shawarma-recipe-make-shawarma/`,
-    `https://www.indianhealthyrecipes.com/tangdi-kabab/`,
-    `https://www.indianhealthyrecipes.com/andhra-chicken-fry-kodi-vepudu-recipe-restaurant-style-chicken-recipe/`,
-    `https://www.indianhealthyrecipes.com/popcorn-chicken-indian-recipe-kfc-style/`,
-    `https://www.indianhealthyrecipes.com/garlic-chicken-recipe-how-to-make-easy-garlic-chicken-in-20-minutes/`,
-    `https://www.indianhealthyrecipes.com/pepper-chicken-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-cutlet-recipe-chicken-patties/`,
-    `https://www.indianhealthyrecipes.com/chicken-pulao/`,
-    `https://www.indianhealthyrecipes.com/chicken-lollipop-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-keema-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-noodles-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-pasta-recipe-chicken-spaghetti/`,
-    `https://www.indianhealthyrecipes.com/chicken-fry-biryani-kodi-vepudu-biryani/`,
-    `https://www.indianhealthyrecipes.com/chicken-burger-recipe-zinger-burger-recipe/`,
-    `https://www.indianhealthyrecipes.com/thalassery-chicken-biryani-recipe/`,
-    `https://www.indianhealthyrecipes.com/szechuan-chicken/`,
-    `https://www.indianhealthyrecipes.com/ambur-biryani/`,
-    `https://www.indianhealthyrecipes.com/andhra-chicken-curry-recipe-kodi-kura-with-step-by-step-pictures/`,
-    `https://www.indianhealthyrecipes.com/andhra-chili-chicken-recipe-spicy-and-hot-restaurant-style-chicken-starter/`,
-    `https://www.indianhealthyrecipes.com/awadhi-chicken-biryani-lucknowi-biryani/`,
-    `https://www.indianhealthyrecipes.com/chicken-butter-masala/`,
-    `https://www.indianhealthyrecipes.com/chettinad-biryani/`,
-    `https://www.indianhealthyrecipes.com/chicken-dum-biryani/`,
-    `https://www.indianhealthyrecipes.com/chicken-fried-rice-recipe/`,
-    `https://www.indianhealthyrecipes.com/andhra-chicken-iguru-how-to-make-andhra-chicken-iguru-step-by-step-pics/`,
-    `https://www.indianhealthyrecipes.com/chicken-ghee-roast-andhra-style-ghee-roast-with-curried-chicken/`,
-    `https://www.indianhealthyrecipes.com/chicken-kurma-recipe-chicken-curry/`,
-    `https://www.indianhealthyrecipes.com/chicken-majestic-recipe-how-to-make-andhra-chicken-majestic/`,
-    `https://www.indianhealthyrecipes.com/chicken-manchurian-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-nuggets-recipe/`,
-    `https://www.indianhealthyrecipes.com/andhra-chicken-biryani-recipe-step-by-step-pictures/`,
-    `https://www.indianhealthyrecipes.com/chicken-roast-chicken-dry-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-shami-kabab-recipe/`,
-    `https://www.indianhealthyrecipes.com/chicken-soup/`,
-    `https://www.indianhealthyrecipes.com/indian-chicken-curry-recipes/`,
-    `https://www.indianhealthyrecipes.com/chicken-tikka-masala-recipe-sanjeev-kapoor/`,
-    `https://www.indianhealthyrecipes.com/chicken-tikka-in-oven/`,
-    `https://www.indianhealthyrecipes.com/chettinad-chicken-dry-chicken-fry-recipe-step-by-step-pics/`,
-    `https://www.indianhealthyrecipes.com/gongura-chicken-fry-roasted-chicken-with-gongura/`,
-    `https://www.indianhealthyrecipes.com/gongura-chicken-curry-chicken-with-red-sorrel-leaves/`,*/    
+    'https://www.indianhealthyrecipes.com/punjabi-egg-curry-anda-curry-dhaba-style/',
+    'https://www.indianhealthyrecipes.com/egg-masala-curry-for-biryanichapathipulao/',
+    'https://www.indianhealthyrecipes.com/egg-roast-biryani-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-fried-rice/',
+    'https://www.indianhealthyrecipes.com/egg-bhurji-andhra-egg-porutu/',
+    'https://www.indianhealthyrecipes.com/egg-noodles-recipe/',
+    'https://www.indianhealthyrecipes.com/spicy-andhra-egg-curry-south-indian-egg-recipes/',
+    'https://www.indianhealthyrecipes.com/egg-butter-masala-egg-makhani-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-bread-toast-recipe/',
+    'https://www.indianhealthyrecipes.com/spinach-omelette-palak-omelet-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-paratha-recipe-anda-paratha/',
+    'https://www.indianhealthyrecipes.com/egg-bonda-recipe-egg-bajji/',
+    'https://www.indianhealthyrecipes.com/egg-biryani-recipe-how-to-make-easy-egg-biryani/',
+    'https://www.indianhealthyrecipes.com/bread-omelet-sandwich-recipe/',
+    'https://www.indianhealthyrecipes.com/potato-egg-curry-aloo-egg-curry-recipe/',
+    'https://www.indianhealthyrecipes.com/chettinad-egg-curry-recipes/',
+    'https://www.indianhealthyrecipes.com/oats-egg-omelette-oats-omelet-egg-recipes-for-breakfast/',
+    'https://www.indianhealthyrecipes.com/simple-cheese-omelette-recipe/',
+    'https://www.indianhealthyrecipes.com/chutney-egg-sandwich-recipe/',
+    'https://www.indianhealthyrecipes.com/kadai-egg-masala-egg-capsicum-curry/',
+    'https://www.indianhealthyrecipes.com/egg-bhurji-sandwich-recipe/',
+    'https://www.indianhealthyrecipes.com/hyderabadi-egg-biryani-recipe-dum-biryani/',
+    'https://www.indianhealthyrecipes.com/egg-dosa-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-fry-make-egg-fry/',
+    'https://www.indianhealthyrecipes.com/egg-in-a-hole-baked-egg-bread/',
+    'https://www.indianhealthyrecipes.com/egg-curry-recipes/',
+    'https://www.indianhealthyrecipes.com/egg-keema-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-kurma-recipe-egg-korma-recipe/',
+    'https://www.indianhealthyrecipes.com/munaga-kaaya-tomato-kura-drumstick-tomato-curry/',
+    'https://www.indianhealthyrecipes.com/egg-mayo-sandwich-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-oats-recipe/',
+    'https://www.indianhealthyrecipes.com/vegetable-omelette-vegetable-omelette-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-pulao-recipe-how-to-make-easy-egg-pulao-in-pressure-cooker/',
+    'https://www.indianhealthyrecipes.com/egg-pulusu-recipe-south-indian-egg-curry/',
+    'https://www.indianhealthyrecipes.com/egg-roast-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-salad-recipe-egg-recipes-breakfast/',
+    'https://www.indianhealthyrecipes.com/egg-sandwich-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-vindaloo-recipe-how-to-make-goan-vindaloo-egg/',
+    'https://www.indianhealthyrecipes.com/french-toast-recipe/',
+    'https://www.indianhealthyrecipes.com/fried-egg-sandwich-egg-breakfast-recipe/',
+    'https://www.indianhealthyrecipes.com/ghee-rice/',
+    'https://www.indianhealthyrecipes.com/mushroom-omelette-recipe/',
+    'https://www.indianhealthyrecipes.com/oatmeal-pancakes-recipe/',
+    'https://www.indianhealthyrecipes.com/paneer-egg-gravy-recipe/',
+    'https://www.indianhealthyrecipes.com/tomato-egg-curry-how-to-make-egg-curry-with-tomato-gravy/',
+    'https://www.indianhealthyrecipes.com/beerakaya-kodi-guddu-kura-andhra-ridge-gourd-egg-curry-recipe/',
+    'https://www.indianhealthyrecipes.com/egg-pasta-recipe/',
+    'https://www.indianhealthyrecipes.com/healthy-banana-oat-muffins/',
+    'https://www.indianhealthyrecipes.com/oats-scrambled-eggs/'
 ]
 
 
@@ -72,13 +67,12 @@ let servCount = new String();
 const fetchData = async (URL) => {
     const result = await axios.get(URL);
     return cheerio.load(result.data, { decodeEntities: false });
-    //const $ = cheerio.load(body, { decodeEntities: false });
 };
 
 
 
 const getResults = async () => {
-    
+
     let TotalResult = []
     for (let i = 0; i < siteUrl.length; i++) {
         const $ = await fetchData(siteUrl[i]);
@@ -90,14 +84,19 @@ const getResults = async () => {
             inerpreparTimeuni = `${prepatimeTag} ${preparTimeuni}` //console.log(RecipePage)
 
         });
-        preparTimeuni = inerpreparTimeuni 
+        preparTimeuni = inerpreparTimeuni || ''
 
 
         let incrg = []
+        $(".entry-title-link").each((index, element) => {
+            let url = $(element).attr('href')
+            console.log(`'${url}',`)
+        })
+
         $(".wprm-recipe-ingredients-container").each((index, element) => {
             $(element).find(".wprm-recipe-ingredient-group:nth-of-type(1) ul li").each((index, element) => {
                 incrg.push({
-                    Name: $(element).find(".wprm-recipe-ingredient-name").text().trim(),
+                    ingredient_id: $(element).find(".wprm-recipe-ingredient-name").text().trim(),
                     Qty: `${$(element).find(".wprm-recipe-ingredient-amount").text().trim()} ${$(element).find(".wprm-recipe-ingredient-unit").text().trim()}` || '',
                     Priority: 'High',
                     imageID: ''
@@ -113,7 +112,7 @@ const getResults = async () => {
                 recipeTitle: spitedTitle.replace(/\s+/g, " ")
             }
         });
-        let j=[]    
+        let j = []
         $(".wprm-recipe-instructions-container .wprm-recipe-instructions  li").each((index, element) => {
             j.push($(element).text().trim().replace(/\s+/g, " "))
             steps = j
@@ -122,12 +121,12 @@ const getResults = async () => {
         $(".wp-block-image img").each((index, element) => {
             let url = $(element).attr('src')
             media = {
-                image :{
-                    logo:'',
-                    hero:url,
+                image: {
+                    logo: '',
+                    hero: url,
                     banner: url
                 }
-            } 
+            }
         })
         $(".wprm-recipe-video").each((index, element) => {
             let imageURL = $(element).text().split('<iframe').pop().split('/iframe')[0];
@@ -145,8 +144,8 @@ const getResults = async () => {
         RecipePage.video = media.video
         RecipePage.instuction = steps
         RecipePage.ingredients = ingredients;
-        RecipePage.cookTime = preparTimeuni
-        RecipePage.server = servCount
+        RecipePage.cookTime = preparTimeuni || ''
+        RecipePage.server = servCount || ''
         TotalResult.push(RecipePage)
     }
     return {
